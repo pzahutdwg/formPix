@@ -32,8 +32,9 @@ function handleConnectError(socket, boardIntervals) {
 			return false
 		})
 
-		fill(pixels, 0x000000)
-		ws281x.render()
+		const { pixels, ws281x } = state;
+		fill(pixels, 0x000000);
+		ws281x.render();
 
 		setTimeout(() => {
 			socket.connect()
@@ -87,6 +88,9 @@ function handleSetClass(socket, boardIntervals) {
 
 		if (userClassId == null) {
 			const { pixels, config, ws281x } = state;
+			state.pollLockActive = false
+			state.pollData = {}
+			state.lastPollBoardRenderKey = null
 			fill(pixels, 0x000000, 0, config.barPixels)
 
 			logger.info('No active class - cleared display');
